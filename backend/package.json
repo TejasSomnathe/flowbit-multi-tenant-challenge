@@ -1,0 +1,27 @@
+{
+  "name": "flowbit-backend",
+  "version": "1.0.0",
+  "description": "Flowbit Full Stack Internship Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run start"
+  },
+  "keywords": [
+    "tejas",
+    "project"
+  ],
+  "author": "Tejas Somnathe",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.4",
+    "mongoose-aggregate-paginate-v2": "^1.1.4"
+  }
+}
