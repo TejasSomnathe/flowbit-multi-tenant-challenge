@@ -1,8 +1,10 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import UserContext from "../context/UserContext.js";
 
 function Default() {
+  const {loggedIn,setLoggedIn,setUser} = useContext(UserContext);
   const buttonStyle = {
     padding: "10px 20px",
     margin: "10px",
@@ -35,6 +37,8 @@ function Default() {
     try {
       const res = await axios.post('/api/v1/users/logout', {}, { withCredentials: true });
       alert(res.data.message || "Logged out!");
+      setLoggedIn(false);
+      setUser(null);
     } catch (err) {
       alert("Logout failed");
       console.error(err);
@@ -43,8 +47,9 @@ function Default() {
 
   return (
     <>
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <NavLink to="/login">
+      <div style={{ textAlign: "center", marginTop: "0px",backgroundColor:"#7f07ffff" }}>
+        {!loggedIn ? (
+          <><NavLink to="/login">
           <button
             style={loginStyle}
             onMouseOver={(e) => (e.target.style.opacity = "0.8")}
@@ -52,7 +57,7 @@ function Default() {
           >
             Login
           </button>
-        </NavLink>
+        </NavLink> 
 
         <NavLink to="/register">
           <button
@@ -62,9 +67,11 @@ function Default() {
           >
             Register
           </button>
-        </NavLink>
+        </NavLink></>)
+        : null}
 
-        <button
+        {loggedIn?(<>
+            <button
           style={logoutStyle}
           onClick={handleLogout}
           onMouseOver={(e) => (e.target.style.opacity = "0.8")}
@@ -72,6 +79,7 @@ function Default() {
         >
           Logout
         </button>
+        </>):null}
       </div>
     </>
   )
