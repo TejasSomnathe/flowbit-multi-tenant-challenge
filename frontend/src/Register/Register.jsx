@@ -1,6 +1,5 @@
-// src/components/RegisterPage.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Register() {
@@ -9,42 +8,40 @@ function Register() {
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
- 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError('');
     try {
-      const data = new FormData();
-      data.append('name', formData.name);
-      data.append('email', formData.email);
-      data.append('password', formData.password);
-    
       const response = await axios.post(
         '/api/v1/users/register',
-        data,
+        formData,
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         }
       );
 
-      if (response.data) {
+      if (response.data && response.data.message) {
         alert('Register successful!');
+        navigate('/login');
       } else {
-        alert('Register failed: ' + response.data.message);
+        setError(response.data.message || 'Register failed');
       }
     } catch (error) {
+      setError(
+        error.response?.data?.message ||
+        'An error occurred during registration.'
+      );
       console.error('Register error:', error);
-      alert('An error occurred during registration.');
     }
   };
 
@@ -69,16 +66,15 @@ function Register() {
           width: '100%',
           maxWidth: '450px',
         }}
-        encType="multipart/form-data"
+        autoComplete="off"
       >
         <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#11998e' }}>
           Register
         </h2>
 
-        
         {[
           { label: 'Name', name: 'name', type: 'text' },
-          { label: 'Email', name: 'email', type: 'email' }, 
+          { label: 'Email', name: 'email', type: 'email' },
           { label: 'Password', name: 'password', type: 'password' },
         ].map((input) => (
           <div key={input.name} style={{ marginBottom: '16px' }}>
@@ -106,9 +102,12 @@ function Register() {
           </div>
         ))}
 
-       
+        {error && (
+          <div style={{ color: 'red', marginBottom: '16px', textAlign: 'center' }}>
+            {error}
+          </div>
+        )}
 
-        {/* Submit Button */}
         <button
           type="submit"
           style={{
@@ -129,7 +128,6 @@ function Register() {
           Register
         </button>
 
-        {/* Back to Login link */}
         <p style={{ marginTop: '20px', textAlign: 'center', fontSize: '14px' }}>
           Already have an account?{' '}
           <Link
