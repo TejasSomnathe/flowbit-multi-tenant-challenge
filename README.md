@@ -60,3 +60,12 @@ Build `flowbit-multi-tenant-challenge` from source and install dependencies:
    ```bash
    git clone https://github.com/tejasSomnathe/flowbit-multi-tenant-challenge
    cd flowbit-multi-tenant-challenge
+   
+2. **Install dependencies**
+   ```bash
+   npm install
+
+3. **Usage**
+   ```bash
+   npm run dev
+   
