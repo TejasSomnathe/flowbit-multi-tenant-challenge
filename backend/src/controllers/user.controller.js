@@ -26,44 +26,6 @@ const generateAccessAndRefreshToken = async (userId) => {
   }
 };
 
-//
-
-//   const { email, password, name } = req.body;
-
-//   if (!name || !password || !email) {
-//     return res.status(400).json({ message: "All field required" });
-//   }
-
-//   const existedUser = await User.findOne({ $or: [{ name }, { email }] });
-
-//   if (existedUser) {
-//     throw new ApiError(409, "user with this email or name is already existed");
-//   }
-
-//   try {
-//     const user = await User.create({
-//       name,
-//       email,
-//       password,
-//     });
-//     const createdUser = await User.findById(user._id).select(
-//       "-password -refreshToken"
-//     );
-//     if (!createdUser) {
-//       throw new ApiError(
-//         500,
-//         "Something went wrong while registering the user"
-//       );
-//     }
-//   } catch (error) {
-//     console.log("Register error:", error); // Add this line
-//     throw error;
-//   }
-//   return res
-//     .status(201)
-//     .json(new ApiResponse(200, createdUser, "User register succesfully"));
-// });
-
 const userRegister = asyncHandler(async (req, res) => {
   const { email, password, name } = req.body;
 
